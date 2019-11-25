@@ -1,0 +1,111 @@
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}简单美食{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="{% static 'css/bootstrapTest.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    {% block css %}{% endblock %}
+    <script type="text/javascript">
+        window.onload = function () {
+            var getDiv = document.getElementsByClassName("item");
+            getDiv[0].setAttribute('class', 'item active');
+        }
+    </script>
+    {% load bootstrap3 %}
+    {% bootstrap_javascript jquery='full' %}
+    {% bootstrap_css %}
+    {% bootstrap_messages %}
+</head>
+<body>
+{# 页头 #}
+<div class="container-fluid ">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid ">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <img src="{% static 'images/tuj-1.png' %}" style="margin-top: 5px" alt="">
+                <a class="navbar-brand" href="#"></a>
+            </div>
+
+            <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav ">
+                    <li class="active "><a href="{% url 'front:index' %}">首页<span class="sr-only">(current)</span></a>
+                    </li>
+                    {% for category in category %}
+                        <li><a href="{% url 'front:index' %}list-{{ category.id }}.html">{{ category.name }}</a></li>
+                    {% endfor %}
+                </ul>
+                {#  搜索  #}
+                <form method="get" class="navbar-form navbar-left" action="/s/">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" name="search" class="form-control" value="" placeholder="关键字">
+                    </div>
+                    <button type="submit" class="btn btn-default">
+                        <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>
+                    </button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if user.is_authenticated %}
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">{{ user.username }}<span
+                                    class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'logout' %}?next={{ request.path }}">退出登录</a>
+                                </li>
+                                <li><a href="{% url 'password_change' %}?next={{ request.path }}">修改密码</a></li>
+                            </ul>
+                        </div>
+                        {# 如果用户未登录，则显示 “登录”#}
+                    {% else %}
+                        <li><a href="{% url 'login' %}?next={{ request.path }}" style="font-size: 18px">登录</a></li>
+                        <li><a href="{% url 'users:register' %}?next={{ request.path }}" style="font-size: 18px">注册</a>
+                        </li>
+
+                    {% endif %}
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+</div>
+
+{% block body %}
+{% endblock %}
+{# 页尾 #}
+{% block footer %}
+    <footer id="footer">
+    <div class="container" style="width: 100%;height: 50px;background: #000000">
+        <div class="row">
+            <div class="col-lg-6 text-lg-left text-center">
+                <div class="copyright" style="color: #FFFFFF;margin-top: 15px">
+                    &copy; Copyright <strong>All</strong> Rights Reserved
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <nav class="footer-links text-lg-right text-center pt-2 pt-lg-0"
+                     style="color: #FFFFFF;margin-top: 15px">
+                    友情链接：
+                    {% for link in alllinkurl %}
+                        <a href="{{ link.linkurl }} " class="scrollto text-muted">{{ link.name }}</a>
+                    {% endfor %}
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+</footer>
+</body>
+</html>

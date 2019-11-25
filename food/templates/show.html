@@ -1,0 +1,126 @@
+{% extends 'base_father.html' %}
+{% load staticfiles %}
+{% block title %}{{ show.title }}{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="jumbotron">
+            <div style="margin-top: 10px">您的位置： <a href="{% url 'front:index' %}">首页</a> »
+                <a href="{% url 'front:index' %}list-{{ show.category.id }}.html">{{ show.category.name }}</a> »
+                <span>正文</span>
+            </div>
+
+            <h2><b>{{ show.title }}</b></h2>
+            <div class="post-con clearfix">
+                <div class="article-meta">
+                <span class="item">分类：<a href="{% url 'front:index' %}list-{{ show.category.id }}.html"
+                                         rel="category tag">{{ show.category.name }}</a></span>
+
+                    <span class="item">
+                        <img src="{% static 'images/11-12.png'%}" alt="时间">
+                        {{ show.created_time }}
+                    </span>
+                    <span class="item">
+                        <img src="{% static 'images/11-12-2.png'%}" alt="浏览量">
+                        {{ show.views }}
+                    </span>
+
+                    {#  正文  #}
+                    <article style="margin-top: 10px">
+                        {{ show.mybody|safe }}
+                    </article>
+
+                    {#  评论  #}
+                    <hr>
+                    {% if user.is_authenticated %}
+                        <div>
+                            <form action="{% url 'comment:comment' sid %}" method="POST">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="body">
+                                        <strong>
+                                            我也要发言：
+                                        </strong>
+                                    </label>
+                                    <textarea  class="form-control"  name="body" id="body" cols="30" rows="3"></textarea>
+                                </div>
+                                <!-- 提交按钮 -->
+                                <button type="submit" class="btn btn-primary ">发送</button>
+                            </form>
+                        </div>
+                        <br>
+                        {% else %}
+                        <br>
+                        <strong style="font-size: 18px">
+                            请<a><a style="font-size: 30px" href="{% url 'login' %}"> 登录 </a></a>后回复
+                        </strong>
+                    {% endif %}
+
+                     <!-- 显示评论 -->
+                    <h4>共有{{ comments.count }}条评论</h4>
+                    <div>
+                        {% for comment in comments %}
+                            <hr>
+                            <p>
+                            <strong style="color: pink">{{ comment.user }}</strong>于
+                            <span style="color: green">
+                                {{ comment.created|date:"Y-m-d H:i:s" }}
+                            </span>时发表：
+                            </p>
+                            <div class="text">
+                                {{ comment.body|linebreaks  }}<br>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    {# 上下篇#}
+                    <div>
+                            <b>上一篇：</b>
+                            {% if netx %}
+                                <a href="show-{{ netx.pk }}.html">{{ netx }}</a>
+                            {% else %}
+                                没有了
+                            {% endif %}
+                    </div>
+                    <div>
+                        <big>
+                            <b>下一篇：</b>
+                            {% if before %}
+                                <a href="show-{{ before.pk }}.html">{{ before }}</a>
+                            {% else %}
+                                没有了
+                            {% endif %}
+                        </big>
+                    </div>
+
+                    {#感兴趣#}
+                    <h3 class="head clearfix"><span class="sp">您可能感兴趣的:</span></h3>
+                    <div class="row">
+                        {% for h in hot %}
+                            <div class="col-md-3">
+                                <ul>
+                                    <li>
+                                        <div class="pic">
+                                            <a href="{% url 'front:index' %}show-{{ h.id }}.html" title="{{ h.title }}">
+                                                <img src="{% url 'front:index' %}media/{{ h.img }}"
+                                                     alt="{{ h.title }}" class="wp-post-image img-rounded" width="145"
+                                                     height="100"/></a>
+                                        </div>
+                                        <a class="descript " href="{% url 'front:index' %}show-{{ h.id }}.html"
+                                           rel="bookmark"
+                                           title="{{ h.title }}">{{ h.title }}</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+

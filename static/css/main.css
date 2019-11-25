@@ -1,0 +1,121 @@
+/* 内容 */
+body{margin:0;padding:0;}
+ul,li{list-style:none;margin:0;padding:0;}
+a{text-decoration: none;color:#000;} 
+clearfix:after{
+	content:"";
+	display: block;
+	clear:both;
+}
+#image-text{
+    width:100%;
+    height: auto;
+    background-color: rgb(235, 235, 235);
+    padding-top:15px;
+}
+
+#image-text .image-text-list{
+    width:100%;
+    height:auto;
+}
+.thumbnail {  height:200px;}
+#image-text .image-text-list:nth-child(n+1){
+    margin-bottom:10px;
+}
+#image-text .image-text-list:nth-child(6){
+    margin-bottom:0;
+}
+
+/*-----------------右边内容栏---------------*/
+#image-text .image-text-list li{
+    float:left;
+    width:100%;
+    height:200px;
+    border-radius: 20px;
+
+}
+#image-text .image-text-list li:nth-child(1){
+    width:25%;
+    margin-left: 10px;
+/*    background-color: #282c31;*/
+}
+#image-text .image-text-list li:nth-child(2){
+    width:70%;
+    background-color: #fff;
+    margin: 0 10px;
+}
+#image-text .image-text-list li:nth-child(2) .image-text-list-content{
+    width:90%;
+    height:auto;
+
+}
+#image-text .image-text-list li:nth-child(2) .image-text-list-content li{
+    overflow: hidden;
+    width:90%;
+    height:auto;
+   /* border:1px solid red;*/
+}
+#image-text .image-text-list li:nth-child(2) .image-text-list-content li h3{
+    font-size:20px;
+    line-height:56px;
+    margin:0;
+    font-family: "宋体";
+}
+#image-text .image-text-list li:nth-child(2) .image-text-list-content li h3 a:hover{
+    color:#ff6700;
+}
+#image-text .image-text-list li:nth-child(2) .image-text-list-content li span{
+    font-size:16px;
+    line-height:26px;
+    color:#999;
+}
+#image-text .image-text-list li:nth-child(2) .image-text-list-content li:nth-child(1){
+    padding: 0 10px;
+}
+#image-text .image-text-list li:nth-child(2) .image-text-list-content li:nth-child(2){
+    height:180px;
+    padding: 10px 10px;
+}
+
+#image-text .image-text-list li img{
+    width:100%;
+    height:100%;
+    border-radius: 20px;
+}
+
+/* 手机端 */
+@media all and (max-width:640px){
+    #image-text .image-text-list li{
+        width: 100%;
+    }
+    #image-text .image-text-list li:nth-child(2){
+        width:100%;
+        height: 100px;
+        background-color: #fff;
+    }
+    #image-text .image-text-list{
+
+    }
+    #image-text .image-text-list li:nth-child(1){
+        width:100%;
+        height: auto;
+        margin-left: 0px;
+    /*    background-color: #282c31;*/
+    }
+    #image-text .image-text-list li:nth-child(2){
+        width:100%;
+        height: auto;
+        background-color: #fff;
+        margin:10px 0;
+    }
+
+     #image-text .image-text-list .right-main{
+
+     }
+
+     #image-text .image-text-list li{
+    padding-bottom: 10px;
+
+}
+}
+/*---------------- 结束---------------- */

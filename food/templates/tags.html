@@ -1,0 +1,76 @@
+{% extends 'base_father.html' %}
+{% block title %}{{ tname }}{% endblock %}
+{% block body %}
+    <div class="container" >
+        <div class="jumbotron" style="margin-bottom: 295px">
+            <div style="margin-top: 10px">
+                <a href="{% url 'front:index' %}">首页</a> » <span
+                    class="current">{{ tname }} </span>
+            </div>
+
+            <h3 style="text-align: center">{{ tname }}</h3>
+
+            {#分类-菜#}
+            <div id="image-text">
+                {% for list in list %}
+                    <ul class="image-text-list clearfix">
+                        <li>
+                            <div class="thumbnail">
+                                <a href="{% url 'front:index' %}show-{{ list.id }}.html" title="{{ list.title }}">
+                                    <img src="{% url 'front:index' %}media/{{ list.img }}" alt="{{ list.title }}" class="wp-post-image"/>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="right-main">
+                            <ul class="image-text-list-content">
+                                <li>
+                                    <h2><a href="{% url 'front:index' %}show-{{ list.id }}.html" target="_blank"
+                                           title="{{ list.title }}">{{ list.title }}</a></h2>
+                                    <p class="txtcont hidden-xs">{{ list.excerpt|truncatechars:"60" }}</p>
+                                    <div class="meta" style="text-align: right;">
+                                        <span class="label label-info" >
+                                            <a href="{% url 'front:index' %}list-{{ list.category.id }}.html">{{ list.category.name }}</a></span>
+                                        <time class="item"><i
+                                                class="fa fa-clock-o"></i>{{ list.created_time|date:"Y年m月d日" }}
+                                        </time>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                {% endfor %}
+            </div>
+
+            {#分页#}
+            <div style="text-align: center;">
+                <div aria-label="..." style="text-align: center;">
+                    <ul class="pagination">
+                        {% if list.has_previous %}
+                            <li class="prev-page"><a href="?page={{ list.previous_page_number }}">上一页</a></li>
+                        {% else %}
+                            <li class="prev-page"></li>
+                        {% endif %}
+
+                        {% for num in list.paginator.page_range %}
+                            {% if num %}
+                                {% ifequal num list.number %}
+                                    <li class="active"><span>{{ num }}</span></li>
+                                {% else %}
+                                    <li><a href="?page={{ num }}">{{ num }}</a></li>
+                                {% endifequal %}
+                            {% else %}
+                                <li class="disabled"><span>...</span></li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if list.has_next %}
+                            <li class="next-page"><a href="?page={{ list.next_page_number }}">下一页</a></li>
+                        {% else %}
+                            <li class="prev-page"></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
